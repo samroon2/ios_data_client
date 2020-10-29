@@ -1,2 +1,2 @@
-from ios_data_client import GetStoreInfo, StoreAppData
-from ios_data_client import IosDataClient
+from .ios_data_client import *
+from .ios_data_client import IosDataClient

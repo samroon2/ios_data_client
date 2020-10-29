@@ -31,7 +31,6 @@ class BasicTests(unittest.TestCase):
         downloads = [x for x in os.listdir('.') if '.py' not in x]
         assert len(downloads) > 0
 
-
     def test_b_get_popular_apps(self):
         '''
         Test to get popular apps.
@@ -42,7 +41,6 @@ class BasicTests(unittest.TestCase):
         downloads = [x for x in os.listdir(f'{genre}')]
         assert len(downloads) > 0
         shutil.rmtree(f"{genre}")
-        # [shutil.rmtree(f"{genre}/{x}") for x in downloads]
 
     def test_c_get_popular_apps_json_only(self):
         '''
@@ -54,7 +52,6 @@ class BasicTests(unittest.TestCase):
         downloads = [x for x in os.listdir(f'{genre}') if x.endswith('.json')]
         assert len(downloads) > 0
         shutil.rmtree(f"{genre}")
-        # [shutil.rmtree(f"{genre}/{x}") for x in downloads]
 
     def test_d_get_selected_app(self):
         '''

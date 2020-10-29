@@ -1,9 +1,9 @@
 
 import bs4 as bs
 import requests
-from store_info import GetStoreInfo
-from store_countries import CountryCodes
-from store_data import StoreAppData
+from .store_info import GetStoreInfo
+from .store_countries import CountryCodes
+from .store_data import StoreAppData
 
 class Store(GetStoreInfo, StoreAppData, CountryCodes):
     '''
