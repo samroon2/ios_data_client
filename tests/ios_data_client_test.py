@@ -30,7 +30,7 @@ class BasicTests(unittest.TestCase):
         dats.get_top_apps(top=5)
         downloads = [x for x in os.listdir('.') if '.py' not in x]
         assert len(downloads) > 0
-        [shutil.rmtree(f"./{x}") for x in downloads]
+        # [shutil.rmtree(f"./{x}") for x in downloads]
 
     def test_get_selected_app(self):
         '''Test for retrieving data for a seleted app.
@@ -45,7 +45,7 @@ class BasicTests(unittest.TestCase):
         dats.store.get_all_apps(n_letters=1, n_pages=1)
         downloads = [x for x in os.listdir('.') if '.py' not in x]
         assert len(downloads) > 0
-        [shutil.rmtree(f"./{x}") for x in downloads]
+        # [shutil.rmtree(f"./{x}") for x in downloads]
 
 if __name__ == "__main__":
     unittest.main()
