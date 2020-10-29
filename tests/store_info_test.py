@@ -5,7 +5,7 @@ import re
 import sys
 import unittest
 sys.path.append('../ios_data_client/ios_data_client')
-from ios_data_client import *
+from ios_data_client import GetStoreInfo
 
 
 url = 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'
@@ -18,28 +18,32 @@ class BasicTests(unittest.TestCase):
 ###############
 
     def test_popular_apps_info(self):
-        '''Test for popular app method.
+        '''
+        Test for popular app method.
         '''
         health = GetStoreInfo(urlstart=url)
         health.get_popular_apps()
         assert len(health.popular_titles) != 0
 
     def test_get_genres(self):
-        '''Test for getting genres from the app store.
+        '''
+        Test for getting genres from the app store.
         '''
         health = GetStoreInfo(urlstart=url)
         health.get_genres()
         assert len(health.genres) != 0
 
     def test_alpha_list(self):
-        '''Test for determining the alpha list in the app store.
+        '''
+        Test for determining the alpha list in the app store.
         '''
         health = GetStoreInfo(urlstart=url)
         health.get_alpha_lists()
         assert len(health.alpha) != 0
 
     def test_page_list(self):
-        '''Test for determining the alpha list in the app store.
+        '''
+        Test for determining the alpha list in the app store.
         '''
         health = GetStoreInfo(urlstart=url)
         health.get_alpha_lists()

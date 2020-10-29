@@ -6,7 +6,7 @@ import shutil
 import sys
 import unittest
 sys.path.append('../ios_data_client/ios_data_client')
-from ios_data_client import *
+from ios_data_client import StoreAppData
 
 
 url = 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'
@@ -21,7 +21,8 @@ class BasicTests(unittest.TestCase):
 ###############
 
     def test_get_raw(self):
-        ''' Test for getting raw json for a give app.
+        ''' 
+        Test for getting raw json for a give app.
         '''
         health_app = StoreAppData()
         apd = health_app.get_raw_app_json(appid)
@@ -30,7 +31,8 @@ class BasicTests(unittest.TestCase):
         assert 'description' in apd['results'][0].keys()
 
     def test_get_app_json(self):
-        ''' Test for getting app info json.
+        ''' 
+        Test for getting app info json.
         '''
         health_app = StoreAppData()
         apd = health_app.get_app_json(appid)
@@ -38,7 +40,8 @@ class BasicTests(unittest.TestCase):
         assert 'results' in apd.keys()
 
     def test_get_images(self):
-        ''' Test for getting app images.
+        ''' 
+        Test for getting app images.
         '''
         health_app = StoreAppData()
         apd = health_app.get_raw_app_json(appid)
@@ -48,7 +51,8 @@ class BasicTests(unittest.TestCase):
         shutil.rmtree("./img")
 
     def test_get_sel_json(self):
-        ''' Test for getting raw json for a give app.
+        ''' 
+        Test for getting raw json for a give app.
         '''
         health_app = StoreAppData()
         health_app.get_selected_apps_json(category, [app])
@@ -60,7 +64,8 @@ class BasicTests(unittest.TestCase):
         shutil.rmtree(f"./{category}")
 
     def test_get_img_json(self):
-        ''' Test for getting json and images for a give app.
+        ''' 
+        Test for getting json and images for a give app.
         '''
         health_app = StoreAppData()
         health_app.get_images_json(category, [app])
@@ -70,7 +75,8 @@ class BasicTests(unittest.TestCase):
         shutil.rmtree(f"{category}/{appid}")
 
     def test_summary(self):
-        ''' Test for summarizing app description.
+        ''' 
+        Test for summarizing app description.
         '''
         health_app = StoreAppData()
         apd = health_app.get_raw_app_json(appid)

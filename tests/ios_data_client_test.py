@@ -23,7 +23,8 @@ class BasicTests(unittest.TestCase):
 
 
     def test_a_get_all_apps(self):
-        '''Test for downloading all apps.
+        '''
+        Test for downloading all apps.
         '''
         dats = IosDataClient(genre=genre, country="United States")
         dats.store.get_all_apps(n_letters=1, n_pages=1)
@@ -32,7 +33,8 @@ class BasicTests(unittest.TestCase):
 
 
     def test_b_get_popular_apps(self):
-        '''Test to get popular apps.
+        '''
+        Test to get popular apps.
         '''
         dats = IosDataClient(genre=genre, country="United States")
         print(dats.urlstart)
@@ -44,7 +46,8 @@ class BasicTests(unittest.TestCase):
 
 
     def test_c_get_selected_app(self):
-        '''Test for retrieving data for a seleted app.
+        '''
+        Test for retrieving data for a seleted app.
         '''
         dats = IosDataClient(genre=genre, country="United States")
         print(dats.store.genres)
