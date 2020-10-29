@@ -48,14 +48,16 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
         '''
         return app_url.split('id')[-1].split('?')[0]
         
-    def get_top_apps(self, **kwargs):
+    def get_top_apps(self, top=100, json_only=False):
         '''
         Method to obtain popular listed apps.
         '''
-        top = kwargs.get('top', False)
         self.self_check()
         self.get_popular_apps()
-        self.get_images_json(self.genre, [title for title in self.popular_titles[:top if top else len(self.popular_titles)]])
+        if not json_only:
+            self.get_images_json(self.genre, [title for title in self.popular_titles[:top if top else len(self.popular_titles)]])
+        else:
+            self.get_selected_apps_json(self.genre, [title for title in self.popular_titles[:top if top else len(self.popular_titles)]])
 
     def get_all_apps(self, n_letters=1, n_pages=1, n_apps=1):
         '''
@@ -80,6 +82,6 @@ if __name__ == '__main__':
     store.country_codes.codes['Australia']
     store.info.get_genres()
     print(store.info.genres)
-    store.get_top_apps(top=2)
+    store.get_top_apps(top=2, json_only=True)
     # d = store.app_data.get_app_json('1464457029')
 

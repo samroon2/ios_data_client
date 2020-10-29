@@ -39,13 +39,24 @@ class BasicTests(unittest.TestCase):
         dats = IosDataClient(genre=genre, country="United States")
         print(dats.urlstart)
         dats.store.get_top_apps(top=5)
-        downloads = [x for x in os.listdir(f'{genre}') if '.py' not in x]
+        downloads = [x for x in os.listdir(f'{genre}')]
         assert len(downloads) > 0
         shutil.rmtree(f"{genre}")
         # [shutil.rmtree(f"{genre}/{x}") for x in downloads]
 
+    def test_c_get_popular_apps_json_only(self):
+        '''
+        Test to get popular apps.
+        '''
+        dats = IosDataClient(genre=genre, country="United States")
+        print(dats.urlstart)
+        dats.store.get_top_apps(top=5, json_only=True)
+        downloads = [x for x in os.listdir(f'{genre}') if x.endswith('.json')]
+        assert len(downloads) > 0
+        shutil.rmtree(f"{genre}")
+        # [shutil.rmtree(f"{genre}/{x}") for x in downloads]
 
-    def test_c_get_selected_app(self):
+    def test_d_get_selected_app(self):
         '''
         Test for retrieving data for a seleted app.
         '''
