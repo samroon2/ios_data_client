@@ -20,7 +20,6 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
         self.genre = kwargs.get('genre', None)
         self.urlstart = kwargs.get('urlstart', None)
         self.country_codes = CountryCodes()
-        print(self.country_codes.codes)
         self.country_code = self.country_codes.codes[self.country]['alpha_2']
         self.info = GetStoreInfo(country_code=self.country_code, urlstart=self.urlstart if self.urlstart else None)
         self.data = StoreAppData()

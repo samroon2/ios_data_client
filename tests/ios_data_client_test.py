@@ -7,7 +7,6 @@ import sys
 import unittest
 sys.path.append('../ios_data_client/ios_data_client')
 import os
-print(os.listdir())
 from ios_data_client import IosDataClient
 from unittest.mock import patch
 
@@ -25,10 +24,11 @@ class BasicTests(unittest.TestCase):
     def test_get_popular_apps(self):
         '''Test to get popular apps.
         '''
-        dats = IosDataClient(genre=genre, country="United States")#urlstart=url
+        dats = IosDataClient(genre=genre, country="United States")
         print(dats.urlstart)
-        dats.get_top_apps(top=5)
-        downloads = [x for x in os.listdir('.') if '.py' not in x]
+        dats.store.get_top_apps(top=5)
+        downloads = [x for x in os.listdir(f'{genre}') if '.py' not in x]
+        print(downloads)
         assert len(downloads) > 0
         # [shutil.rmtree(f"./{x}") for x in downloads]
 
@@ -36,7 +36,7 @@ class BasicTests(unittest.TestCase):
         '''Test for retrieving data for a seleted app.
         '''
         dats = IosDataClient(genre=genre, country="United States")
-        print(dats.genres)
+        print(dats.store.genres)
 
     def test_get_all_apps(self):
         '''Test for downloading all apps.
