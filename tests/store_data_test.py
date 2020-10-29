@@ -23,7 +23,7 @@ class BasicTests(unittest.TestCase):
     def test_get_raw(self):
         ''' Test for getting raw json for a give app.
         '''
-        health_app = GetAppContent()
+        health_app = StoreAppData()
         apd = health_app.get_raw_app_json(appid)
         assert len(apd) != 0
         assert 'results' in apd.keys()
@@ -32,7 +32,7 @@ class BasicTests(unittest.TestCase):
     def test_get_app_json(self):
         ''' Test for getting app info json.
         '''
-        health_app = GetAppContent()
+        health_app = StoreAppData()
         apd = health_app.get_app_json(appid)
         assert len(apd) != 0
         assert 'results' in apd.keys()
@@ -40,7 +40,7 @@ class BasicTests(unittest.TestCase):
     def test_get_images(self):
         ''' Test for getting app images.
         '''
-        health_app = GetAppContent()
+        health_app = StoreAppData()
         apd = health_app.get_raw_app_json(appid)
         img = apd['results'][0]['screenshotUrls'][0]
         health_app.get_images(img, './img', 1)
@@ -50,7 +50,7 @@ class BasicTests(unittest.TestCase):
     def test_get_sel_json(self):
         ''' Test for getting raw json for a give app.
         '''
-        health_app = GetAppContent()
+        health_app = StoreAppData()
         health_app.get_selected_apps_json(category, [app])
         with open(f"./{category}/{appid}.json") as f:
             apd = json.load(f)
@@ -62,7 +62,7 @@ class BasicTests(unittest.TestCase):
     def test_get_img_json(self):
         ''' Test for getting json and images for a give app.
         '''
-        health_app = GetAppContent()
+        health_app = StoreAppData()
         health_app.get_images_json(category, [app])
         assert appid in os.listdir('.')
         assert len(os.listdir(f"./{appid}")) != 0
@@ -72,7 +72,7 @@ class BasicTests(unittest.TestCase):
     def test_summary(self):
         ''' Test for summarizing app description.
         '''
-        health_app = GetAppContent()
+        health_app = StoreAppData()
         apd = health_app.get_raw_app_json(appid)
         desc = apd['results'][0]['description']
         summary = health_app.text_summary(desc)

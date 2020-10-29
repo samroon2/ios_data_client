@@ -5,7 +5,7 @@ import re
 import sys
 import unittest
 sys.path.append('../store_scrape/store_data')
-from appstore_info import *
+from ios_data_client import *
 
 
 url = 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'

@@ -3,6 +3,7 @@ import pickle
 import pprint
 
 project_base = Path(__file__).resolve().parent.parent
+store_data = project_base.joinpath('ios_data_client')
 
 class CountryCodes:
     '''
@@ -16,7 +17,7 @@ class CountryCodes:
         '''
         Method for loading country codes from pickle file.
         '''
-        with open('country_codes.pickle', 'rb') as f:
+        with open(store_data.joinpath('country_codes.pickle'), 'rb') as f:
             return pickle.load(f)
 
     @property

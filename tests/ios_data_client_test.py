@@ -5,8 +5,10 @@ import re
 import shutil
 import sys
 import unittest
-sys.path.append('../store_scrape/app_data')
-from get_app_data import *
+sys.path.append('../ios_data_client/ios_data_client')
+import os
+print(os.listdir())
+from ios_data_client import IosDataClient
 from unittest.mock import patch
 
 
@@ -23,7 +25,7 @@ class BasicTests(unittest.TestCase):
     def test_get_popular_apps(self):
         '''Test to get popular apps.
         '''
-        dats = ScrapetheStore(genre=genre, country="United States")#urlstart=url
+        dats = IosDataClient(genre=genre, country="United States")#urlstart=url
         print(dats.urlstart)
         dats.get_top_apps(top=5)
         downloads = [x for x in os.listdir('.') if '.py' not in x]
@@ -33,14 +35,14 @@ class BasicTests(unittest.TestCase):
     def test_get_selected_app(self):
         '''Test for retrieving data for a seleted app.
         '''
-        dats = ScrapetheStore(genre=genre, country="United States")
+        dats = IosDataClient(genre=genre, country="United States")
         print(dats.genres)
 
     def test_get_all_apps(self):
         '''Test for downloading all apps.
         '''
-        dats = ScrapetheStore(genre=genre, country="United States")
-        dats.get_all_apps(n_letters=1, n_pages=1)
+        dats = IosDataClient(genre=genre, country="United States")
+        dats.store.get_all_apps(n_letters=1, n_pages=1)
         downloads = [x for x in os.listdir('.') if '.py' not in x]
         assert len(downloads) > 0
         [shutil.rmtree(f"./{x}") for x in downloads]
