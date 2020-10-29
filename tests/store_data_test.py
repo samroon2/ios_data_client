@@ -5,7 +5,7 @@ import re
 import shutil
 import sys
 import unittest
-sys.path.append('../ios_data_client')
+sys.path.append('../ios_data_client/ios_data_client')
 from ios_data_client import *
 
 
@@ -64,10 +64,10 @@ class BasicTests(unittest.TestCase):
         '''
         health_app = StoreAppData()
         health_app.get_images_json(category, [app])
-        assert appid in os.listdir('.')
-        assert len(os.listdir(f"./{appid}")) != 0
-        assert len(os.listdir(f"./{appid}/")) != 0
-        shutil.rmtree(f"./{appid}")       
+        assert appid in os.listdir(f'{category}')
+        assert len(os.listdir(f"{category}/{appid}")) != 0
+        assert len(os.listdir(f"{category}/{appid}/")) != 0
+        shutil.rmtree(f"{category}/{appid}")
 
     def test_summary(self):
         ''' Test for summarizing app description.
