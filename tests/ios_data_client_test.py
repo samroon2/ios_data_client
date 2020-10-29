@@ -49,7 +49,5 @@ class BasicTests(unittest.TestCase):
         dats = IosDataClient(genre=genre, country="United States")
         print(dats.store.genres)
 
-
-
 if __name__ == "__main__":
     unittest.main()

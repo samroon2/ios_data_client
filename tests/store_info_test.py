@@ -4,7 +4,7 @@ import os
 import re
 import sys
 import unittest
-sys.path.append('../store_scrape/store_data')
+sys.path.append('../ios_data_client/ios_data_client')
 from ios_data_client import *
 
 
@@ -20,28 +20,28 @@ class BasicTests(unittest.TestCase):
     def test_popular_apps_info(self):
         '''Test for popular app method.
         '''
-        health = GetStoreInfo(url)
+        health = GetStoreInfo(urlstart=url)
         health.get_popular_apps()
         assert len(health.popular_titles) != 0
 
     def test_get_genres(self):
         '''Test for getting genres from the app store.
         '''
-        health = GetStoreInfo(url)
+        health = GetStoreInfo(urlstart=url)
         health.get_genres()
         assert len(health.genres) != 0
 
     def test_alpha_list(self):
         '''Test for determining the alpha list in the app store.
         '''
-        health = GetStoreInfo(url)
+        health = GetStoreInfo(urlstart=url)
         health.get_alpha_lists()
         assert len(health.alpha) != 0
 
     def test_page_list(self):
         '''Test for determining the alpha list in the app store.
         '''
-        health = GetStoreInfo(url)
+        health = GetStoreInfo(urlstart=url)
         health.get_alpha_lists()
         health.get_page_list(health.alpha[0])
         assert len(health.pages) != 0
