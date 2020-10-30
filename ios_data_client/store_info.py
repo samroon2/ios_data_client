@@ -10,25 +10,27 @@ class GetStoreInfo:
     :example urlstart: https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8
     '''
 
-    def __init__(self, country_code=False, urlstart=False):
+    def __init__(self, country_code=False):
         self.country_code = country_code if country_code else "us"
-        self.urlstart = urlstart if urlstart else f'https://itunes.apple.com/{self.country_code}/genre/ios-health-fitness/id6013?mt=8'
+        self.urlstart = f'https://itunes.apple.com/{self.country_code}/genre/ios-health-fitness/id6013?mt=8'
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'}
         self.popular_titles = []
         self.alpha = []
         self.pages = []
         self.genres = {}
         self.all_pages = {}
+        self.get_genres()
 
-    def get_popular_apps(self):
+    def get_popular_apps(self, genre):
         '''
         Retrieves popular apps for a given category, approx 240 for each category.
         '''
-        res = requests.get(self.urlstart, headers=self.headers)
+        starturl = self.genres[genre]
+        res = requests.get(starturl, headers=self.headers)
         res.raise_for_status()
         noStarchSoup = bs.BeautifulSoup(res.text, 'lxml')
         for url in noStarchSoup.find_all('div', {'class': 'grid3-column'}):
-            [self.popular_titles.append(ul.get('href')) for ul in url.find_all('a')]
+            yield [ul.get('href') for ul in url.find_all('a')]
 
     def get_genres(self):
         '''

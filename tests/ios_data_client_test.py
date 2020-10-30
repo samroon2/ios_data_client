@@ -5,7 +5,7 @@ import re
 import shutil
 import sys
 import unittest
-sys.path.append('../ios_data_client/ios_data_client')
+sys.path.append('../ios_data_client')
 import os
 from ios_data_client import IosDataClient
 from unittest.mock import patch
@@ -26,8 +26,8 @@ class BasicTests(unittest.TestCase):
         '''
         Test for downloading all apps.
         '''
-        dats = IosDataClient(genre=genre, country="United States")
-        dats.store.get_all_apps(n_letters=1, n_pages=1)
+        dats = IosDataClient(country="United States")
+        dats.store.get_all_apps(genre)
         downloads = [x for x in os.listdir('.') if '.py' not in x]
         assert len(downloads) > 0
 
@@ -35,9 +35,9 @@ class BasicTests(unittest.TestCase):
         '''
         Test to get popular apps.
         '''
-        dats = IosDataClient(genre=genre, country="United States")
+        dats = IosDataClient(country="United States")
         print(dats.urlstart)
-        dats.store.get_top_apps(top=5)
+        dats.store.get_top_apps(genre, top=5)
         downloads = [x for x in os.listdir(f'{genre}')]
         assert len(downloads) > 0
         shutil.rmtree(f"{genre}")
@@ -46,9 +46,8 @@ class BasicTests(unittest.TestCase):
         '''
         Test to get popular apps.
         '''
-        dats = IosDataClient(genre=genre, country="United States")
-        print(dats.urlstart)
-        dats.store.get_top_apps(top=5, json_only=True)
+        dats = IosDataClient(country="United States")
+        dats.store.get_top_apps(genre, top=5, json_only=True)
         downloads = [x for x in os.listdir(f'{genre}') if x.endswith('.json')]
         assert len(downloads) > 0
         shutil.rmtree(f"{genre}")
@@ -57,7 +56,7 @@ class BasicTests(unittest.TestCase):
         '''
         Test for retrieving data for a seleted app.
         '''
-        dats = IosDataClient(genre=genre, country="United States")
+        dats = IosDataClient(country="United States")
         print(dats.store.genres)
 
 if __name__ == "__main__":

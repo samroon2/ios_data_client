@@ -5,7 +5,7 @@ import re
 import shutil
 import sys
 import unittest
-sys.path.append('../ios_data_client/ios_data_client')
+sys.path.append('../ios_data_client')
 from ios_data_client import StoreAppData
 
 

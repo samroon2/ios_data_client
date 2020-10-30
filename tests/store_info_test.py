@@ -4,12 +4,12 @@ import os
 import re
 import sys
 import unittest
-sys.path.append('../ios_data_client/ios_data_client')
+sys.path.append('../ios_data_client')
 from ios_data_client import GetStoreInfo
 
 
 url = 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'
-category = 'Health-Fitness'
+genre = 'Health & Fitness'
 
 class BasicTests(unittest.TestCase):
  
@@ -21,15 +21,14 @@ class BasicTests(unittest.TestCase):
         '''
         Test for popular app method.
         '''
-        health = GetStoreInfo(urlstart=url)
-        health.get_popular_apps()
-        assert len(health.popular_titles) != 0
+        health = GetStoreInfo()
+        assert len([x for x in health.get_popular_apps(genre)]) != 0
 
     def test_get_genres(self):
         '''
         Test for getting genres from the app store.
         '''
-        health = GetStoreInfo(urlstart=url)
+        health = GetStoreInfo()
         health.get_genres()
         assert len(health.genres) != 0
 
@@ -37,7 +36,7 @@ class BasicTests(unittest.TestCase):
         '''
         Test for determining the alpha list in the app store.
         '''
-        health = GetStoreInfo(urlstart=url)
+        health = GetStoreInfo()
         health.get_alpha_lists()
         assert len(health.alpha) != 0
 
@@ -45,7 +44,7 @@ class BasicTests(unittest.TestCase):
         '''
         Test for determining the alpha list in the app store.
         '''
-        health = GetStoreInfo(urlstart=url)
+        health = GetStoreInfo()
         health.get_alpha_lists()
         health.get_page_list(health.alpha[0])
         assert len(health.pages) != 0
