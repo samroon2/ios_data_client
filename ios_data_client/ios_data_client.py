@@ -6,9 +6,6 @@ from .store import Store
 class IosDataClient:
 
     def __init__(self, **kwargs):
-        self.genre = kwargs.get('genre', None)
-        self.country = kwargs.get('country', None)
-        self.urlstart = kwargs.get('urlstart', None)
         self.countries = CountryCodes()
         self.store = Store(**kwargs)
 

@@ -74,7 +74,7 @@ class StoreAppData:
         for app in selectedtitles:
             appid = app.split('id')[-1].split('?')[0]
             basepath = f'./{genre}/{str(appid)}'
-            os.makedirs(basepath)
+            os.makedirs(basepath) # Handle FileExistsError
             os.makedirs(f'{basepath}/screenshots')
             os.makedirs(f'{basepath}/ipadScreenshot')
             os.makedirs(f'{basepath}/artwork')

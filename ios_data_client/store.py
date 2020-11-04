@@ -1,6 +1,7 @@
 
 import bs4 as bs
 import requests
+from .exceptions import UndefinedGenre
 from .store_info import GetStoreInfo
 from .store_countries import CountryCodes
 from .store_data import StoreAppData
@@ -9,7 +10,7 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
     '''
     Class for scraping app information from the ios app store.
     GetStoreInfo to get app info from the store -> driver for app id's/lists to obtain
-    GetAppData -> get app description, art etc, items present in the app store.
+    StoreAppData -> get app description, art etc, items present in the app store.
     UserReviews -> get reviews
     :param urlstart: Staring url for data.
     :type urlstart: str
@@ -27,7 +28,6 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
         '''
         Method for ensuring required information is present for requests.
         '''
-        self.info.get_genres()
         if not self.urlstart or (not self.genre and not self.country):
             if not self.genre:
                 while self.genre not in self.info.genres:
@@ -50,7 +50,8 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
         '''
         Method to obtain popular listed apps.
         '''
-        if genre not in self.genres: return 'No Such Genre' #Create exception for this.
+        if genre not in self.genres:
+            raise UndefinedGenre(genre, self.genres) # return 'No Such Genre' # Create exception for this.
         # self.self_check()
         if not json_only:
             self.get_images_json(genre, [title for title in self.popular_titles[:top if top else len(self.popular_titles)]])
@@ -71,17 +72,3 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
                 noStarchSoup = bs.BeautifulSoup(res.text, "lxml")
                 for url in noStarchSoup.find_all('div', {"class":"grid3-column"}):
                     self.get_images_json(genre, [ul.get('href') for ul in url.find_all('a')][:n_apps])
-
-
-if __name__ == '__main__':
-    store = Store(country='Australia', genre='Health & Fitness')
-    store.country_codes.countries
-    print(store.country_codes.codes)
-    store.country_codes.codes['Australia']
-    store.info.get_genres()
-    print(store.info.genres)
-    store.get_top_apps(top=2, json_only=True)
-    store.genre = 'Business'
-    store.get_top_apps(top=2, json_only=True)
-    # d = store.app_data.get_app_json('1464457029')
-
