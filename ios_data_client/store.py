@@ -24,19 +24,6 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
         self.data = StoreAppData()
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'}
 
-    def self_check(self):
-        '''
-        Method for ensuring required information is present for requests.
-        '''
-        if not self.urlstart or (not self.genre and not self.country):
-            if not self.genre:
-                while self.genre not in self.info.genres:
-                    self.genre = input(f'Please enter a genre or starting URL {self.info.genres}')
-            elif self.genre not in self.info.genres:
-                while self.genre not in self.info.genres:
-                    self.genre = input(f'Please enter a genre or starting URL {self.info.genres}')
-            self.urlstart = self.info.genres[self.genre]
-
     @staticmethod
     def get_id(app_url: str) -> str:
         ''' 
@@ -51,8 +38,7 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
         Method to obtain popular listed apps.
         '''
         if genre not in self.genres:
-            raise UndefinedGenre(genre, self.genres) # return 'No Such Genre' # Create exception for this.
-        # self.self_check()
+            raise UndefinedGenre(genre, self.genres)
         if not json_only:
             self.get_images_json(genre, [title for title in self.popular_titles[:top if top else len(self.popular_titles)]])
         else:
@@ -62,7 +48,8 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
         '''
         Works through the alpha list, gets pages/letter and retrieves app info.
         '''
-        # self.self_check()
+        if genre not in self.genres:
+            raise UndefinedGenre(genre, self.genres)
         self.get_alpha_lists()
         for link in list(set(self.alpha))[:n_letters]:
             self.get_page_list(link)

@@ -11,7 +11,7 @@ class UndefinedGenre(Exception):
     """
 
     def __init__(self, genre, genres):
-        self.message = f"The genre: {genre} is not offered by the store, please enter one of the following: {[x + ' \n ' for x in genres.keys()]}"
+        self.message = f'The genre: {genre} is not offered by the store, please enter one of the following: {", ".join([x for x in genres.keys()])}.'
 
     def __str__(self):
         return repr(self.message)
