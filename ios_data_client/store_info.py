@@ -1,3 +1,9 @@
+"""
+ios_data_client.store_info
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+This module contains code for getting app information from the ios store.
+"""
+
 import bs4 as bs
 import requests
 
@@ -72,6 +78,9 @@ class GetStoreInfo:
             [self.pages.append(ul.get('href')) for ul in url.find_all('a')]
 
     def get_all_alpha_pages(self):
+        '''
+        Method that scrapes all of the alpha pages.
+        '''        
         self.get_alpha_lists()
         self.all_pages = {x[-1]: [] for x in self.alpha}
         for letter in self.alpha:

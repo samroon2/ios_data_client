@@ -1,3 +1,9 @@
+"""
+ios_data_client.store_data
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+This module contains code for downloading data from the ios store.
+"""
+
 import bs4 as bs
 import datetime
 import json
