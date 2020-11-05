@@ -10,7 +10,7 @@ from ios_data_client import StoreAppData
 
 
 url = 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'
-category = 'Health-Fitness'
+genre = 'Health & Fitness'
 app = 'https://apps.apple.com/us/app/sweatcoin/id971023427'
 appid = re.findall(r'\d+', app)[0]
 
@@ -55,24 +55,24 @@ class BasicTests(unittest.TestCase):
         Test for getting raw json for a give app.
         '''
         health_app = StoreAppData()
-        health_app.get_selected_apps_json(category, [app])
-        with open(f"./{category}/{appid}.json") as f:
+        health_app.get_selected_apps_json(genre, [app])
+        with open(f"./{genre}/{appid}.json") as f:
             apd = json.load(f)
         assert len(apd) != 0
         assert 'app_summary' in apd.keys()
         assert 'description' in apd['results'].keys()
-        shutil.rmtree(f"./{category}")
+        shutil.rmtree(f"./{genre}")
 
     def test_get_img_json(self):
         ''' 
         Test for getting json and images for a give app.
         '''
         health_app = StoreAppData()
-        health_app.get_images_json(category, [app])
-        assert appid in os.listdir(f'{category}')
-        assert len(os.listdir(f"{category}/{appid}")) != 0
-        assert len(os.listdir(f"{category}/{appid}/")) != 0
-        shutil.rmtree(f"{category}/{appid}")
+        health_app.get_images_json(genre, [app])
+        assert appid in os.listdir(f'{genre}')
+        assert len(os.listdir(f"{genre}/{appid}")) != 0
+        assert len(os.listdir(f"{genre}/{appid}/")) != 0
+        shutil.rmtree(f"{genre}/{appid}")
 
     def test_summary(self):
         ''' 

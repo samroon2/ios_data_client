@@ -10,10 +10,10 @@ import os
 from ios_data_client import IosDataClient
 from unittest.mock import patch
 
-
 url = 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'
 genre = 'Health & Fitness'
-category = 'Health-Fitness'
+app = 'https://apps.apple.com/us/app/sweatcoin/id971023427'
+appid = re.findall(r'\d+', app)[0]
 
 class BasicTests(unittest.TestCase):
  
@@ -36,7 +36,6 @@ class BasicTests(unittest.TestCase):
         Test to get popular apps.
         '''
         dats = IosDataClient(country="United States")
-        print(dats.urlstart)
         dats.store.get_top_apps(genre, top=5)
         downloads = [x for x in os.listdir(f'{genre}')]
         assert len(downloads) > 0
@@ -56,8 +55,14 @@ class BasicTests(unittest.TestCase):
         '''
         Test for retrieving data for a seleted app.
         '''
-        dats = IosDataClient(country="United States")
-        print(dats.store.genres)
+        health_app = IosDataClient(country="United States")
+        health_app.store.data.get_selected_apps_json(genre, [app])
+        with open(f"./{genre}/{appid}.json") as f:
+            apd = json.load(f)
+        assert len(apd) != 0
+        assert 'app_summary' in apd.keys()
+        assert 'description' in apd['results'].keys()
+        shutil.rmtree(f"./{genre}")
 
 if __name__ == "__main__":
     unittest.main()
