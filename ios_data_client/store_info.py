@@ -24,6 +24,8 @@ class GetStoreInfo:
     def get_popular_apps(self, genre):
         '''
         Retrieves popular apps for a given category, approx 240 for each category.
+        :param genre: Genre to fetch.
+        :type genre: str
         '''
         starturl = self.genres[genre]
         res = requests.get(starturl, headers=self.headers)
@@ -74,7 +76,7 @@ class GetStoreInfo:
         self.all_pages = {x[-1]: [] for x in self.alpha}
         for letter in self.alpha:
             self.get_page_list(letter)
-            for pages in self.pages:
+            for _ in self.pages:
                 res = requests.get(self.urlstart, headers=self.headers)
                 res.raise_for_status()
                 noStarchSoup = bs.BeautifulSoup(res.text, 'lxml')

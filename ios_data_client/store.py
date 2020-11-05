@@ -36,6 +36,12 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
     def get_top_apps(self, genre: str, top=100, json_only=False):
         '''
         Method to obtain popular listed apps.
+        :param genre: Desired genre.
+        :type genre: str
+        :param top: Number of top apps to return.
+        :type top: int
+        :param json_only: Return only json.
+        :type json_only: bool
         '''
         if genre not in self.genres:
             raise UndefinedGenre(genre, self.genres)
@@ -47,6 +53,14 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
     def get_all_apps(self, genre: str, n_letters=1, n_pages=1, n_apps=1):
         '''
         Works through the alpha list, gets pages/letter and retrieves app info.
+        :param genre: Desired genre.
+        :type genre: str
+        :param n_letters: Number of letters to return.
+        :type n_letters: int
+        :param n_pages: Number of pages to iterate through for each letter.
+        :type n_pages: int
+        :param n_apps: Number of apps to return per letter per page.
+        :type n_apps: int
         '''
         if genre not in self.genres:
             raise UndefinedGenre(genre, self.genres)
