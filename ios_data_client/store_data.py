@@ -1,8 +1,8 @@
-"""
+'''
 ios_data_client.store_data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 This module contains code for downloading data from the ios store.
-"""
+'''
 
 import bs4 as bs
 import datetime
@@ -18,9 +18,10 @@ from sumy.summarizers.lex_rank import LexRankSummarizer as Summarizer
 
 
 class StoreAppData:
-    '''Class for extracting data for apps.
     '''
-
+    Class for extracting data for apps.
+    '''
+    
     def get_raw_app_json(self, appid: str):
         '''
         Retrieve app data.
@@ -107,7 +108,6 @@ class StoreAppData:
             data['app_id'] = data['results']['trackId']
             data['app_name'] = data['results']['trackName']
             data['app_summary'] = str(self.text_summary(data['results']['description'].replace(">","")))
-            #self.storejson(data)
             return data
         except Exception as e:
             print(f"failed on: {e}")   

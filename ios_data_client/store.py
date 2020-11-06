@@ -1,9 +1,8 @@
-
-"""
+'''
 ios_data_client.store
 ~~~~~~~~~~~~~~~~~~~~~
 This module contains code for interacting with the ios store.
-"""
+'''
 
 import bs4 as bs
 import requests

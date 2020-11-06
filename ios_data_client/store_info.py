@@ -1,8 +1,8 @@
-"""
+'''
 ios_data_client.store_info
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 This module contains code for getting app information from the ios store.
-"""
+'''
 
 import bs4 as bs
 import requests

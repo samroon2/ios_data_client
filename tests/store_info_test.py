@@ -12,10 +12,6 @@ url = 'https://itunes.apple.com/us/genre/ios-health-fitness/id6013?mt=8'
 genre = 'Health & Fitness'
 
 class BasicTests(unittest.TestCase):
- 
-###############
-#### tests ####
-###############
 
     def test_popular_apps_info(self):
         '''

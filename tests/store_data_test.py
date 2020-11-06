@@ -15,10 +15,6 @@ app = 'https://apps.apple.com/us/app/sweatcoin/id971023427'
 appid = re.findall(r'\d+', app)[0]
 
 class BasicTests(unittest.TestCase):
- 
-###############
-#### tests ####
-###############
 
     def test_get_raw(self):
         ''' 

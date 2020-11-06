@@ -1,9 +1,8 @@
-"""
+'''
 ios_data_client.exceptions
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 This module contains custom exceptions.
-"""
-
+'''
 
 class UndefinedGenre(Exception):
     """

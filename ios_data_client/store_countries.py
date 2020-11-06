@@ -1,9 +1,9 @@
-"""
+'''
 ios_data_client.store_countries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This module contains code for managing the country specific information
 needed when looking at the app store.
-"""
+'''
 
 from pathlib import Path
 import pickle
