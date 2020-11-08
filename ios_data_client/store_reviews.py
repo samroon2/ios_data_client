@@ -1,3 +1,9 @@
+'''
+ios_data_client.store_reviews
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This module contains code for obtaining app reviews from the ios store.
+'''
+
 import heapq
 import json
 import os
@@ -39,9 +45,9 @@ class AppReviews:
 		Method to make http request to get reviews.
 		:param appid: ID of the app.
 		:type appid: str
-		:param token: Bearer Token
+		:param token: Bearer Token.
 		:type token: str
-		:param offset: Review offset
+		:param offset: Review offset.
 		:type offset: int
 		'''
 		# TODO: language param.
@@ -58,9 +64,9 @@ class AppReviews:
 		Method to get reviews for a single app.
 		:param appid: ID of the app.
 		:type appid: str
-		:param token: Bearer Token
+		:param token: Bearer Token.
 		:type token: str
-		:param offset: Review offset
+		:param offset: Review offset.
 		:type offset: int
 		'''
         offset = start
@@ -85,7 +91,7 @@ class AppReviews:
 		Method to get reviews for a single app.
 		:param appid: ID of the app.
 		:type appid: str
-		:param token: Bearer Token
+		:param token: Bearer Token.
 		:type token: str
 		:param limit: Max number of reviews to obtain.
 		:type limit: int
