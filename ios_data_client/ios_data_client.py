@@ -10,11 +10,3 @@ class IosDataClient:
         self.countries = CountryCodes()
         self.store = Store(**kwargs)
         self.reviews = AppReviews(**kwargs)
-
-
-if __name__ == '__main__':
-    client = IosDataClient(genre='Sports', country='Australia')
-    client.countries.countries
-    client.store.info.get_genres()
-    print(client.store.info.genres)
-    client.store.get_top_apps(top=2)
