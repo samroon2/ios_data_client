@@ -103,7 +103,7 @@ class AppReviews:
         heapq.heapify(heap)
         reqs = 0
         while heap:
-            last_ran, offset, retrys, app = heapq.heappop(heap)
+            last_ran, offset, retries, app = heapq.heappop(heap)
             if offset <= limit:
                 if reqs-last_ran < 2:
                     time.sleep(1)
@@ -114,9 +114,9 @@ class AppReviews:
                     heapq.heappush(heap, (reqs, offset + 10, 0, app))
                     reqs += 1
                 elif d.status_code == 429:
-                    if retrys < 10:
-                        heapq.heappush(heap, (reqs, offset, retrys + 1, app))
+                    if retries < 10:
+                        heapq.heappush(heap, (reqs+10, offset, retries + 1, app))
                         reqs += 1
-                elif retrys < 3:
-                    heapq.heappush(heap, (reqs, offset, retrys + 1, app))
+                elif retries < 3:
+                    heapq.heappush(heap, (reqs, offset, retries + 1, app))
                     reqs += 1

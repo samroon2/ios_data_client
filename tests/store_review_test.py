@@ -44,5 +44,17 @@ class BasicTests(unittest.TestCase):
         assert d['data']
         shutil.rmtree(appid)
 
+    def test_get_batch(self):
+        token = os.getenv('IOSTOKEN')
+        reviews = AppReviews()
+        apps = [appid, '336381998', '680520990']
+        reviews.get_all_auth_revs_batch(apps, token, limit=10)
+        assert all([x in os.listdir('.') for x in apps])
+        assert len(os.listdir(f'{appid}/reviews')) == 2
+        with open(f'{appid}/reviews/reviews_page_0.json') as f:
+            d = json.load(f)
+        assert d['data']
+        [shutil.rmtree(x) for x in apps]
+
 if __name__ == '__main__':
     unittest.main()
