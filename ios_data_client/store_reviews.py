@@ -11,6 +11,7 @@ import pathlib
 import random
 import requests
 import time
+from tqdm import tqdm
 from .store_countries import CountryCodes
 
 class AppReviews:
@@ -56,7 +57,6 @@ class AppReviews:
         #           ,'authorization': f'Bearer {token}'}
         self.headers['authorization'] = f'Bearer {token}'
         res = requests.get(a, headers=self.headers)
-        print(res)
         return res
 
     def get_all_auth_revs(self, appid: str, token: str, start=0, limit=100):
@@ -71,14 +71,15 @@ class AppReviews:
 		'''
         offset = start
         os.makedirs(f'{str(appid)}/reviews') if appid not in os.listdir('.') else None
+        tq = tqdm(total=limit, unit='Reviews')
         retry = 0
         while offset <= limit and retry < 5:
             d = self.get_auth_reviews(appid, token, offset)
-            print(offset)
             if d.status_code == 200:
                 self.write_to_json(f'{appid}/reviews/reviews_page_{offset}', d.json())
                 offset += 10
                 time.sleep(random.randint(2, 20))
+                tq.update(10)
                 retry = 0
             elif d.status_code == 429:
                 time.sleep(random.randint(2, 30))
@@ -97,7 +98,9 @@ class AppReviews:
 		:type limit: int
 		'''
         heap = []
+        tqs = {}
         for app in apps:
+            tqs[app] = tqdm(total=limit, unit='Reviews')
             os.makedirs(f'{str(app)}/reviews') if app not in os.listdir('.') else None
             heap.append((0, 0, 0, app))
         heapq.heapify(heap)
@@ -108,11 +111,11 @@ class AppReviews:
                 if reqs-last_ran < 2:
                     time.sleep(1)
                 d = self.get_auth_reviews(app, token, offset)
-                print(offset, app)
                 if d.status_code == 200:
                     self.write_to_json(f'{app}/reviews/reviews_page_{offset}', d.json())
                     heapq.heappush(heap, (reqs, offset + 10, 0, app))
                     reqs += 1
+                    tqs[app].update(10)
                 elif d.status_code == 429:
                     if retries < 10:
                         heapq.heappush(heap, (reqs+10, offset, retries + 1, app))

@@ -18,6 +18,7 @@ setup(
     install_requirements=[
         "sumy>=0.7.0",
         "requests>=2.18.4",
-        "beautifulsoup4>=4.9.3"
+        "beautifulsoup4>=4.9.3",
+        "tqdm>=4.28.1"
     ]
 )
