@@ -4,6 +4,7 @@ ios_data_client.store_reviews
 This module contains code for obtaining app reviews from the ios store.
 '''
 
+import collections
 import heapq
 import json
 import os
@@ -105,21 +106,30 @@ class AppReviews:
             heap.append((0, 0, 0, app))
         heapq.heapify(heap)
         reqs = 0
+        history = collections.deque([])
         while heap:
             last_ran, offset, retries, app = heapq.heappop(heap)
+            if len(history) > 100:
+                history.popleft()
+            s_term = list(history)[-10:].count(429)/10
+            l_term = history.count(429)/100
             if offset <= limit:
+                if s_term > 0.75:
+                    time.sleep(s_term*10)
                 if reqs-last_ran < 2:
-                    time.sleep(1)
+                    time.sleep(10*l_term)
                 d = self.get_auth_reviews(app, token, offset)
                 if d.status_code == 200:
                     self.write_to_json(f'{app}/reviews/reviews_page_{offset}', d.json())
                     heapq.heappush(heap, (reqs, offset + 10, 0, app))
                     reqs += 1
                     tqs[app].update(10)
+                    history.append(200)
                 elif d.status_code == 429:
                     if retries < 10:
                         heapq.heappush(heap, (reqs+10, offset, retries + 1, app))
                         reqs += 1
+                        history.append(429)
                 elif retries < 3:
                     heapq.heappush(heap, (reqs, offset, retries + 1, app))
                     reqs += 1

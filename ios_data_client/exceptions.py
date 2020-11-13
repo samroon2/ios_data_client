@@ -6,7 +6,7 @@ This module contains custom exceptions.
 
 class UndefinedGenre(Exception):
     """
-    Exception for when a cardholder attempts to overdraw an account.
+    Exception for when a genre that is entered is not part of the ios store.
     """
 
     def __init__(self, genre, genres):
