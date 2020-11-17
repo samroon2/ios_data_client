@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/samroon2/ios_data_client.svg?branch=main)](https://travis-ci.org/samroon2/ios_data_client)
 # ios_data_client
 Client for ios app data.
 
