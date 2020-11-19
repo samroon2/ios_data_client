@@ -146,6 +146,6 @@ class AppReviews:
                         heapq.heappush(heap, (reqs+10, offset, retries + 1, app, idx))
                         reqs += 1
                         history.append(429)
-                elif retries < 3:
+                elif retries < 5:
                     heapq.heappush(heap, (reqs, offset, retries + 1, app, idx))
                     reqs += 1
