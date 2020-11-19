@@ -6,7 +6,6 @@ import shutil
 import sys
 import unittest
 sys.path.append('../ios_data_client')
-import os
 from ios_data_client import IosDataClient
 from unittest.mock import patch
 
