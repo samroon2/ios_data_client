@@ -17,7 +17,7 @@ from .store_countries import CountryCodes
 
 class AppReviews:
     '''
-	Retreieves new reviews from the app store.
+	Retreieves reviews from the app store.
     :param country: Country origin for the reviews.
 	:type country: str
     '''
@@ -53,6 +53,8 @@ class AppReviews:
 		:type token: str
 		:param offset: Review offset.
 		:type offset: int
+        :param alt_headers: Use alternate headers.
+		:type alt_headers: bool
 		'''
 		# TODO: language param.
         a = f'https://amp-api.apps.apple.com/v1/catalog/{self.countrycodealpha}/apps/{appid}/reviews?l=en-US&offset={offset}&platform=web&additionalPlatforms=appletv%2Cipad%2Ciphone%2Cmac'
@@ -68,8 +70,10 @@ class AppReviews:
 		:type appid: str
 		:param token: Bearer Token.
 		:type token: str
-		:param offset: Review offset.
-		:type offset: int
+		:param start: Number of reviews to skip.
+		:type start: int
+		:param limit: Max number of reviews to get.
+		:type limit: int
 		'''
         offset = start
         os.makedirs(f'{str(appid)}/reviews') if appid not in os.listdir('.') else None
@@ -89,20 +93,23 @@ class AppReviews:
             else:
                 retry += 1
         
-    def get_all_auth_revs_batch(self, apps: list, token: str, limit=100, alt_headers=False, tqdm_disable=True):
+    def get_all_auth_revs_batch(self, apps: list, token: str, limit=100, alt_headers=False, tqdm_disable=False):
         '''	
-		Method to get reviews for a single app.
+		Method to get reviews for a single app, built to be slow/respectful.
 		:param appid: ID of the app.
 		:type appid: str
 		:param token: Bearer Token.
 		:type token: str
 		:param limit: Max number of reviews to obtain.
 		:type limit: int
+        :param alt_headers: Use alternate headers.
+		:type alt_headers: bool
+        :param tqdm_disable: Disable tqdm visualization.
+		:type tqdm_disable: bool
 		'''
         heap = []
         if not self.tqs:
             self.tqs = {i:tqdm(total=limit, unit='Reviews', disable=tqdm_disable) for i in range(len(apps))}
-        # tqd = tqdm(total=limit*len(apps), unit=' Reviews')
         tqdm._instances.clear()
         for i, app in enumerate(apps):
             os.makedirs(f'{str(app)}/reviews') if app not in os.listdir('.') else None
@@ -115,14 +122,14 @@ class AppReviews:
             if len(history) > 100:
                 history.popleft()
             s_term = list(history)[-10:].count(429)/10
-            l_term = history.count(429)/100
             if offset <= limit:
                 if reqs-last_ran < 2:
                     time.sleep(1)
+                if s_term > 0.75:
+                    time.sleep(5)
                 try:
                     d = self.get_auth_reviews(app, token, offset, alt_headers=alt_headers)
-                except Exception as e:
-                    print(e)
+                except Exception:
                     if retries < 20:
                         alt_headers = not alt_headers
                         heapq.heappush(heap, (reqs+20, offset, retries + 1, app, idx))

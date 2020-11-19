@@ -50,8 +50,8 @@ class Store(GetStoreInfo, StoreAppData, CountryCodes):
         '''
         if genre not in self.genres:
             raise UndefinedGenre(genre, self.genres)
-        if not json_only:
-            self.get_images_json(genre, [title for title in self.popular_titles[:top if top else len(self.popular_titles)]])
+        elif not json_only:
+            self.get_images_json(genre, [title for title in self.get_popular_apps(genre)][0][:top if top else None])
         else:
             self.get_selected_apps_json(genre, [title for title in self.get_popular_apps(genre)][0][:top if top else None])
 

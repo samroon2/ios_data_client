@@ -77,7 +77,8 @@ class StoreAppData:
         :param apps: List of app urls to get.
         :type apps: list
         '''
-        os.makedirs(genre) if genre not in os.listdir('.') else False
+        if not os.path.exists(f'./{genre}'):
+            os.makedirs(f'./{genre}')
         for app in selectedtitles:
             appid = app.split('id')[-1].split('?')[0]
             basepath = f'./{genre}/{str(appid)}'
@@ -86,12 +87,13 @@ class StoreAppData:
             os.makedirs(f'{basepath}/ipadScreenshot')
             os.makedirs(f'{basepath}/artwork')
             appjson = self.get_raw_app_json(appid)
-            [self.get_images(x, f'{basepath}/screenshots', n) for n, x in enumerate(appjson['results'][0]['screenshotUrls'])]
-            [self.get_images(x, f'{basepath}/ipadScreenshot', n) for n, x in enumerate(appjson['results'][0]['ipadScreenshotUrls'])]
-            self.get_images(appjson['results'][0]['artworkUrl512'], f'{basepath}/artwork', 0)
-            with open(f'{basepath}/{str(appid)}.json', "w") as outfile:
-                json.dump(appjson, outfile)
-            time.sleep(1)
+            if appjson['results']:
+                [self.get_images(x, f'{basepath}/screenshots', n) for n, x in enumerate(appjson['results'][0].get('screenshotUrls',[]))]
+                [self.get_images(x, f'{basepath}/ipadScreenshot', n) for n, x in enumerate(appjson['results'][0].get('ipadScreenshotUrls',[]))]
+                self.get_images(appjson['results'][0]['artworkUrl512'], f'{basepath}/artwork', 0)
+                with open(f'{basepath}/{str(appid)}.json', "w") as outfile:
+                    json.dump(appjson, outfile)
+                time.sleep(1)
 
     def get_app_json(self, appid: str):
         '''
