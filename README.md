@@ -82,7 +82,60 @@ Get selected data for selected apps.
 >>> os.listdir('Developer Tools/1517331914')
 ['1517331914.json', 'artwork', 'ipadScreenshot', 'screenshots']
 ```
-
-### Get all Apps
-
+### Get all Apps of a Given Genre
+```bash
+>>> from ios_data_client import IosDataClient
+>>> client = IosDataClient(country='United States')
+>>> client.store.get_all_apps('Developer Tools', n_letters=1, n_pages=1, n_apps=1)
+>>> import os
+>>> os.listdir()
+['Developer Tools']
+>>> os.listdir('Developer Tools')
+['864038041']
+>>> os.listdir('Developer Tools/864038041')
+['864038041.json', 'artwork', 'ipadScreenshot', 'screenshots']
+```
 ### Get App Reviews
+#### Get Reviews for a Single App
+```bash
+>>> from ios_data_client import IosDataClient
+>>> client = IosDataClient(country='United States')
+>>> import os
+>>> os.listdir()
+['Developer Tools']
+>>> os.listdir('Developer Tools')
+['864038041']
+>>> client.reviews.get_all_auth_revs(os.listdir('Developer Tools')[0], os.environ['IOSTOKEN'], start=0, limit=10)
+100%|████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:09<00:00,  1.09 Reviews/s]
+>>> os.listdir('864038041')
+['reviews']
+>>> os.listdir('864038041/reviews')
+['reviews_page_0.json', 'reviews_page_10.json']
+```
+####  Get Reviews for Multiple Apps
+__Note:__ this should be done ethically, do not abuse this!!! Submit batches of ~5 apps at a time, limit the number of reviews, sleep in between batches or you will get blocked by the host!
+```bash
+>>> from ios_data_client import IosDataClient
+>>> client = IosDataClient(country='United States')
+>>> client.reviews.get_all_auth_revs_batch(['1483790257', '1477376905'], os.environ['IOSTOKEN'], limit=100, alt_headers=False, tqdm_disable=False)
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:10<00:00, 10.01Reviews/s]
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:11<00:00, 9.09Reviews/s]
+>>> os.listdir('1483790257')
+['reviews']
+>>> os.listdir('1483790257/reviews')
+['reviews_page_40.json', 'reviews_page_90.json', 'reviews_page_70.json', 'reviews_page_60.json', 'reviews_page_30.json', 'reviews_page_20.json', 'reviews_page_80.json', 'reviews_page_0.json', 'reviews_page_50.json', 'reviews_page_10.json']
+>>> import json
+>>> with open(f'1483790257/reviews/reviews_page_40.json') as f:
+...     d = json.load(f)
+>>> d
+{'data': [{'attributes': {'date': '2020-01-16T00:46:33Z',
+                          'isEdited': False,
+                          'rating': 4,
+                          'review': 'All I wanted was an editor for plain text '
+                                    'and so far so good',
+                          'title': 'Edits plain text'},
+           'id': '5408564353',
+           'type': 'user-reviews'},
+....
+}
+```
