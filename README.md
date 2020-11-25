@@ -117,9 +117,13 @@ __Note:__ this should be done ethically, do not abuse this!!! Submit batches of 
 ```bash
 >>> from ios_data_client import IosDataClient
 >>> client = IosDataClient(country='United States')
->>> client.reviews.get_all_auth_revs_batch(['1483790257', '1477376905'], os.environ['IOSTOKEN'], limit=100, alt_headers=False, tqdm_disable=False)
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:10<00:00, 10.01Reviews/s]
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:11<00:00, 9.09Reviews/s]
+>>> client.reviews.get_all_auth_revs_batch(
+...                         ['1483790257', '1477376905'], 
+...                         os.environ['IOSTOKEN'], limit=100, 
+...                         alt_headers=False, tqdm_disable=False
+... )
+100%|███████████████████████████████████████████████████████████████████████████████████| 100/100 [00:10<00:00, 10.01Reviews/s]
+100%|███████████████████████████████████████████████████████████████████████████████████| 100/100 [00:11<00:00, 9.09Reviews/s]
 >>> os.listdir('1483790257')
 ['reviews']
 >>> os.listdir('1483790257/reviews')
@@ -136,6 +140,6 @@ __Note:__ this should be done ethically, do not abuse this!!! Submit batches of 
                           'title': 'Edits plain text'},
            'id': '5408564353',
            'type': 'user-reviews'},
-....
+...
 }
 ```
